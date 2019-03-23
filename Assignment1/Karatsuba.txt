@@ -1,0 +1,47 @@
+#include<iostream>
+#include<string>
+using namespace std;
+
+
+class Solution
+{
+public:
+	long long int multiplication (long long int num1,long long int num2)
+	{
+		
+		long long int num1_h, num1_l, num2_h, num2_l, f1, f2, f3;
+		int n;
+		char temp_array[200];
+		_itoa (num1, temp_array, 10);
+		string temp_string1 (temp_array);
+		n = temp_string1.length ();
+		_itoa (num2, temp_array, 10);
+		string temp_string2 (temp_array);
+
+		if (n > 5)
+		{
+			
+			num1_h = stoi (temp_string1.substr (0, n / 2));
+			num1_l = stoi (temp_string1.substr (n / 2, n / 2));
+			num2_h = stoi (temp_string2.substr (0, n / 2));
+			num2_l = stoi (temp_string2.substr (n / 2, n / 2));
+
+			f1 = multiplication (num1_h, num2_h);
+			f2 = multiplication (num1_l, num2_l);
+			f3 = multiplication ((num1_h + num1_l), (num2_h + num2_l));
+
+			return pow (10, n)*f1 + f2 + pow (10, n / 2)*(f3 - f2 - f1);
+		}
+		else return num1*num2;
+	}
+};
+
+
+void main ()
+{
+	Solution solution1;
+	long long int num1, num2;
+	cin >> num1;
+	cin >> num2;
+	cout << solution1.multiplication (num1, num2);
+}

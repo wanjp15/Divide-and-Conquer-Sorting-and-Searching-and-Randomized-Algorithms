@@ -1,0 +1,75 @@
+#include<iostream>
+#include<vector>
+#include<string>
+#include<algorithm>
+using namespace std;
+
+class Solution
+{
+	//下标和iterator的处理区别！
+public:
+	long long CountSplit (vector<int>&a, int it1, int it2, int it3)
+	{
+		long n = it3 - it1 + 1;
+		long long splitCount=0;
+		int it_original=it1;
+		vector<int> tmp;
+		int p1=it1, p2=it2;
+		while (p1 <= it2 - 1 && p2 <= it3)
+		{
+			if (a[p1] > a[p2])
+			{
+				splitCount += it2 - p1;
+				tmp.push_back (a[p2]);
+				p2++;
+			}
+			else
+			{
+				tmp.push_back (a[p1]);
+				p1++;
+			}
+		}
+		while (p1 <= it2 - 1)
+		{
+			tmp.push_back (a[p1]);
+			p1++;
+		}
+		while (p2 <= it3)
+		{
+			tmp.push_back (a[p2]);
+			p2++;
+		}
+		for (int p0=0;p0<tmp.size();++p0)
+		{
+			a[it_original] = tmp[p0];
+			++it_original;
+		}
+		return splitCount;
+	}
+
+	long long SortCount (vector<int>&a,int start, int end)
+	{
+		if (start==end)return 0;
+		long mid = (end - start) / 2 + start;
+		long long x = SortCount (a,start, mid);
+		long long b = SortCount (a,mid + 1, end);
+		long long c = CountSplit (a, start, mid + 1, end);
+		return x + b + c;
+	}
+};
+
+
+void main ()
+{
+	long long res,inp;
+	vector<int> vec;
+	for (int i = 0; i < 100000; i++)
+	{
+		scanf ("%d",&inp);
+		vec.push_back (inp);
+	}
+	Solution sol;
+	res = sol.SortCount (vec, 0, vec.size () - 1);
+	printf ("%lld",res);
+
+}
